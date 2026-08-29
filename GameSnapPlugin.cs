@@ -28,6 +28,13 @@ namespace GameSnapPlugin
         private SteamService?      _steam;
         private EmulatorService?   _emulator;
 
+        // ✅ 新增：跟踪当前游戏会话中是否有截图被整理
+        private bool _hasOrganizedInSession = false;
+
+        // ✅ 新增：存储当前游戏会话中整理的截图数量（用于汇总通知）
+        private int _sessionScreenshotCount = 0;
+        private string? _sessionGameName = null;
+
         public GameSnapPlugin(IPlayniteAPI api) : base(api)
         {
             Properties = new GenericPluginProperties { HasSettings = true };
@@ -52,28 +59,95 @@ namespace GameSnapPlugin
         public override void OnGameStarted(OnGameStartedEventArgs args)
         {
             _organizer?.SetCurrentGame(args.Game.Name);
-            TryAutoCreateFolder(args.Game.Name);
+            // ✅ 新增：重置会话跟踪
+            _hasOrganizedInSession = false;
+            _sessionScreenshotCount = 0;
+            _sessionGameName = args.Game.Name;
+
+            // ✅ 修改：根据 ForceCreateOnGameStart 决定是否创建文件夹
+            if (S.ForceCreateFolder && S.ForceCreateOnGameStart)
+            {
+                CreateFolderForGame(args.Game.Name);
+            }
         }
 
         public override void OnGameStopped(OnGameStoppedEventArgs args)
         {
             _organizer?.SetCurrentGame(null);
+            // ✅ 新增：游戏结束时，如果启用"游戏结束后"通知且有截图被整理，发送汇总通知
+            if (S.NotifyOnGameEnd && _hasOrganizedInSession)
+            {
+                SendEndOfGameNotification(args.Game.Name);
+            }
+
+            // ✅ 重置会话状态
+            _hasOrganizedInSession = false;
+            _sessionScreenshotCount = 0;
+            _sessionGameName = null;
+        }
+
+        // ✅ 新增：发送游戏结束时的汇总通知
+        private void SendEndOfGameNotification(string gameName)
+        {
+            try
+            {
+                var gameEndTemplate = PlayniteApi.Resources.GetString("LOCGameSnap_Notification_GameEnd") ??
+                    "🎮 Game session ended, organized {1} screenshot(s) for \"{0}\"";
+                var message = string.Format(gameEndTemplate, gameName, _sessionScreenshotCount);
+
+                PlayniteApi.Notifications.Add(
+                    new NotificationMessage(
+                        Guid.NewGuid().ToString(),
+                        message,
+                        NotificationType.Info
+                    )
+                );
+
+                _logger?.Info($"End of game notification sent: {message}");
+            }
+            catch (Exception ex)
+            {
+                _logger?.Error($"Failed to send end of game notification: {ex.Message}");
+            }
         }
 
         private void TryAutoCreateFolder(string gameName)
         {
-            if (!S.AutoCreateFolders) return;
+            // 使用 ForceCreateFolder 替代 AutoCreateFolders
+            if (!S.ForceCreateFolder) return;
             if (string.IsNullOrWhiteSpace(S.DestinationBase)) return;
             if (!Directory.Exists(S.DestinationBase)) return;
 
-            var folderName = string.Concat(gameName.Split(Path.GetInvalidFileNameChars())).Trim();
-            if (string.IsNullOrWhiteSpace(folderName)) return;
+            var folderPath = CreateFolderForGame(gameName);
+            if (folderPath != null)
+            {
+                _logger?.Info($"Auto-created folder: {folderPath}");
+            }
+        }
+
+        // 添加创建文件夹的辅助方法
+        private string? CreateFolderForGame(string gameName)
+        {
+            if (string.IsNullOrWhiteSpace(S.DestinationBase)) return null;
+            if (!Directory.Exists(S.DestinationBase)) return null;
+
+            var invalid = Path.GetInvalidFileNameChars();
+            var folderName = string.Concat(gameName.Split(invalid)).Trim();
+            if (string.IsNullOrWhiteSpace(folderName)) return null;
 
             var folderPath = Path.Combine(S.DestinationBase, folderName);
-            if (!Directory.Exists(folderPath))
+
+            try
             {
-                Directory.CreateDirectory(folderPath);
-                _logger?.Info($"Auto-created folder: {folderPath}");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                return folderPath;
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -87,22 +161,24 @@ namespace GameSnapPlugin
             {
                 var sv = PlayniteApi.Addons.Plugins
                     .FirstOrDefault(p => p.Id == ScreenshotsVisualizerId);
-                if (sv == null) return;
+                if (sv == null)
+                {
+                    _logger?.Info("ScreenshotsVisualizer plugin not found");
+                    return;
+                }
 
-                // Acessa Database.RefreshData(Game) via reflexão
-                var dbProp = sv.GetType().GetProperty("Database",
+                // 直接调用 SV 的 RefreshGame 方法
+                var method = sv.GetType().GetMethod("RefreshGame",
                     BindingFlags.Public | BindingFlags.Instance);
-                if (dbProp == null) return;
-
-                var db = dbProp.GetValue(sv);
-                if (db == null) return;
-
-                var refreshMethod = db.GetType().GetMethod("RefreshData",
-                    BindingFlags.Public | BindingFlags.Instance,
-                    null, new[] { typeof(Game) }, null);
-
-                refreshMethod?.Invoke(db, new object[] { game });
-                _logger?.Info($"ScreenshotsVisualizer refreshed for: {game.Name}");
+                if (method != null)
+                {
+                    method.Invoke(sv, new object[] { game });
+                    _logger?.Info($"ScreenshotsVisualizer refreshed for: {game.Name}");
+                }
+                else
+                {
+                    _logger?.Info("RefreshGame method not found in SV");
+                }
             }
             catch (Exception ex)
             {
@@ -120,10 +196,20 @@ namespace GameSnapPlugin
 
         public void ApplySettings(GameSnapSettings s)
         {
+            // ✅ 保存当前游戏状态
+            string? currentGameName = _organizer != null ? _organizer.GetCurrentGame() : null;
+
             _watcher?.Stop();
             _watcher?.Dispose();
             _watcher = null;
             InitServices(s);
+
+            // ✅ 恢复当前游戏状态
+            if (!string.IsNullOrEmpty(currentGameName))
+            {
+                _organizer?.SetCurrentGame(currentGameName);
+            }
+
             _watcher?.Start();
         }
 
@@ -136,7 +222,7 @@ namespace GameSnapPlugin
 
             _logger    = new GameSnapLogger(dataPath);
             _dict      = new DictionaryService(dataPath);
-            _organizer = new OrganizerService(s, _dict, _logger);
+            _organizer = new OrganizerService(s, _dict, _logger, PlayniteApi);  // ✅ 传递 API
 
             if (s.EnableSteamSupport)
             {
@@ -162,9 +248,42 @@ namespace GameSnapPlugin
 
             _organizer.OnFileMoved = (summary, message) =>
             {
-                if (s.ShowNotifications)
-                    PlayniteApi.Notifications.Add(
-                        new NotificationMessage(Guid.NewGuid().ToString(), message, NotificationType.Info));
+                // ✅ 新增：如果是汇总通知（以"Organized"开头），记录会话统计
+                if (message.StartsWith("Organized") && _organizer != null)
+                {
+                    // 提取截图数量
+                    var match = System.Text.RegularExpressions.Regex.Match(message, @"Organized (\d+) screenshot");
+                    if (match.Success && int.TryParse(match.Groups[1].Value, out int count))
+                    {
+                        _sessionScreenshotCount += count;
+                        _hasOrganizedInSession = true;
+                    }
+                }
+
+                // ✅ 判断是否是异常通知（警告或错误）
+                bool isErrorOrWarning = message.StartsWith("⚠️") || message.StartsWith("❌") ||
+                                        message.Contains("警告") || message.Contains("错误");
+
+                // ✅ 如果是异常通知，检查 EnableMismatchNotification
+                if (isErrorOrWarning)
+                {
+                    if (!s.EnableMismatchNotification) return;
+                    // 异常通知不受 ShowNotifications 和 NotifyOnEachScreenshot 限制
+                    // 直接发送
+                }
+                else
+                {
+                    // ✅ 普通通知（汇总通知）- 受 ShowNotifications 和 NotifyOnEachScreenshot 控制
+                    if (!s.NotifyOnEachScreenshot) return;
+                    if (!s.ShowNotifications) return;
+                }
+
+                // 确定通知类型
+                NotificationType type = isErrorOrWarning ? NotificationType.Error : NotificationType.Info;
+
+                PlayniteApi.Notifications.Add(
+                    new NotificationMessage(Guid.NewGuid().ToString(), message, type)
+                );
             };
 
             _organizer.OnGamesOrganized = (gameNames) =>
@@ -190,7 +309,7 @@ namespace GameSnapPlugin
         {
             yield return new GameMenuItem
             {
-                Description = "Organize screenshots now",
+                Description = PlayniteApi.Resources.GetString("LOCGameSnapOrganizeScreenshots"),
                 MenuSection = "GameSnap",
                 Action = _ => _organizer?.Organize()
             };
@@ -198,15 +317,17 @@ namespace GameSnapPlugin
 
         public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args)
         {
+            var loc = PlayniteApi.Resources;
+
             yield return new MainMenuItem
             {
-                Description = "Organize screenshots now",
+                Description = loc.GetString("LOCGameSnapOrganizeScreenshots"),
                 MenuSection = "@GameSnap",
                 Action = _ => _organizer?.Organize()
             };
             yield return new MainMenuItem
             {
-                Description = "Open log",
+                Description = loc.GetString("LOCGameSnapOpenLog"),
                 MenuSection = "@GameSnap",
                 Action = _ =>
                 {
@@ -218,7 +339,7 @@ namespace GameSnapPlugin
             };
             yield return new MainMenuItem
             {
-                Description = "Open dictionary",
+                Description = loc.GetString("LOCGameSnapOpenDictionary"),
                 MenuSection = "@GameSnap",
                 Action = _ =>
                 {
@@ -231,13 +352,13 @@ namespace GameSnapPlugin
             };
             yield return new MainMenuItem
             {
-                Description = "Review unmatched screenshots",
+                Description = loc.GetString("LOCGameSnapReviewUnmatched"),
                 MenuSection = "@GameSnap",
                 Action = _ => OpenReviewWindow()
             };
             yield return new MainMenuItem
             {
-                Description = "Review unmatched screenshots (Fullscreen / Gamepad)",
+                Description = loc.GetString("LOCGameSnapReviewUnmatchedFullscreen"),
                 MenuSection = "@GameSnap",
                 Action = _ => OpenFullscreenReviewWindow()
             };
@@ -247,7 +368,9 @@ namespace GameSnapPlugin
         {
             if (_organizer == null || _dict == null || _logger == null)
             {
-                PlayniteApi.Dialogs.ShowMessage("GameSnap is not fully initialized.", "GameSnap");
+                PlayniteApi.Dialogs.ShowMessage(
+                    PlayniteApi.Resources.GetString("LOCGameSnap_NotInitialized") ?? "GameSnap is not fully initialized.",
+                    "GameSnap");
                 return;
             }
             var vm     = new ReviewViewModel(PlayniteApi, S, _dict, _organizer, _logger);
@@ -260,7 +383,9 @@ namespace GameSnapPlugin
         {
             if (_organizer == null || _dict == null || _logger == null)
             {
-                PlayniteApi.Dialogs.ShowMessage("GameSnap is not fully initialized.", "GameSnap");
+                PlayniteApi.Dialogs.ShowMessage(
+                    PlayniteApi.Resources.GetString("LOCGameSnap_NotInitialized") ?? "GameSnap is not fully initialized.",
+                    "GameSnap");
                 return;
             }
             var window = new Views.FullscreenReviewWindow(

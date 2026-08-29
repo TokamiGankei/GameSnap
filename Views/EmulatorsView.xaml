@@ -17,24 +17,24 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,12">
-            <CheckBox Content="Enable emulator screenshot support"
+            <CheckBox Content="{DynamicResource LOCGameSnap_Emulators_EnableSupport}"
                       IsChecked="{Binding Settings.EnableEmulatorSupport}"
                       FontWeight="SemiBold"
-                      ToolTip="When enabled, GameSnap will monitor the screenshot folders of all active emulators below and organize screenshots just like Game Bar or ShareX captures."/>
-            <TextBlock Text="Enable individual emulators below. GameSnap auto-detects standard install locations."
+                      ToolTip="{DynamicResource LOCGameSnap_Emulators_EnableSupportTip}"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Emulators_SubLabel}"
                        Foreground="Gray" FontSize="11" Margin="20,4,0,0"/>
         </StackPanel>
 
         <Separator Grid.Row="1" Margin="0,0,0,12"/>
 
-        <!-- Warning when AutoCreateFolders is off -->
+        <!-- Warning when ForceCreateFolder is off -->
         <Border Grid.Row="1" Margin="0,0,0,8" Padding="10,8"
                 Background="#1a2a1a" BorderBrush="#4caf50" BorderThickness="1" CornerRadius="4"
-                Visibility="{Binding AutoCreateFoldersWarningVisibility}">
+                Visibility="{Binding Settings.ForceCreateFolder, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="💡 " FontSize="13" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource LOCGameSnap_Emulators_TipIcon}" FontSize="13" VerticalAlignment="Center"/>
                 <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#a0d0a0"
-                           Text="Tip: Enable 'Auto-create game folders' in the General tab so folders are created automatically the first time you play a game on an emulator."/>
+                        Text="{DynamicResource LOCGameSnap_Emulators_ForceCreateTip}"/>
             </StackPanel>
         </Border>
 
@@ -45,7 +45,7 @@
                     <DataTemplate>
                         <Border Margin="0,0,0,8" Padding="12,10"
                                 BorderThickness="1" CornerRadius="4"
-                                ToolTip="This reads the emulator's own native screenshot folder. Screenshots must be taken with the emulator's built-in screenshot function (e.g. F9 in RetroArch) — captures made with ShareX or Xbox Game Bar won't show up here. For those, use 'Emulator process prefixes' in the Detection tab instead.">
+                                ToolTip="{DynamicResource LOCGameSnap_Emulators_ItemTooltip}">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="BorderBrush" Value="#333"/>
@@ -103,7 +103,7 @@
 
                                 <!-- Browse -->
                                 <Button Grid.Column="3"
-                                        Content="Browse"
+                                        Content="{DynamicResource LOCGameSnap_Emulators_Browse}"
                                         Padding="8,4"
                                         Margin="0,0,12,0"
                                         VerticalAlignment="Center"
@@ -126,15 +126,15 @@
 
         <!-- Add custom emulator -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,12,0,0">
-            <Button Content="+ Add emulator"
+            <Button Content="{DynamicResource LOCGameSnap_Emulators_Add}"
                     Padding="12,6"
                     Command="{Binding AddEmulatorCommand}"
-                    ToolTip="Add a custom emulator not in the list above."/>
-            <Button Content="Remove selected"
+                    ToolTip="{DynamicResource LOCGameSnap_Emulators_AddTip}"/>
+            <Button Content="{DynamicResource LOCGameSnap_Emulators_Remove}"
                     Padding="12,6"
                     Margin="8,0,0,0"
                     Command="{Binding RemoveEmulatorCommand}"
-                    ToolTip="Remove the last user-added emulator."/>
+                    ToolTip="{DynamicResource LOCGameSnap_Emulators_RemoveTip}"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -15,8 +15,30 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
+  <!-- 确保 Localization 复制到输出目录 -->
   <ItemGroup>
-    <Resource Include="icon.png" />
+    <Content Include="Localization\**\*.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+
+  <!-- 确保 extension.yaml 和 icon.png 复制到输出目录 -->
+  <ItemGroup>
+    <None Include="extension.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <!-- ⬇️ 使用 Target 替代 PostBuildEvent -->
+  <Target Name="PackPext" AfterTargets="Build">
+    <PropertyGroup>
+      <_SourceDir>$(MSBuildProjectDirectory)\$(OutputPath)</_SourceDir>
+      <_DestDir>$(MSBuildProjectDirectory)\bin</_DestDir>
+    </PropertyGroup>
+    <Exec Command="&quot;$(LocalAppData)\Playnite\Toolbox.exe&quot; pack &quot;$(_SourceDir.TrimEnd('\'))&quot; &quot;$(_DestDir.TrimEnd('\'))&quot;" />
+  </Target>
 
 </Project>

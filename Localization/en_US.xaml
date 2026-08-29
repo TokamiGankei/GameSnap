@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ==================== SettingsTabView.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapTab_General">General</sys:String>
+    <sys:String x:Key="LOCGameSnapTab_Emulators">Emulators</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Folders ==================== -->
+    <sys:String x:Key="LOCGameSnap_Folders">Folders</sys:String>
+    <sys:String x:Key="LOCGameSnap_SourceFolder">Source folder (Game Bar / ShareX output):</sys:String>
+    <sys:String x:Key="LOCGameSnap_Browse">Browse</sys:String>
+    <sys:String x:Key="LOCGameSnap_AdditionalSources">Additional source folders (one per line):</sys:String>
+    <sys:String x:Key="LOCGameSnap_DestinationBase">Destination base folder (game subfolders live here):</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_SourceFolder">The folder where your capture tool saves screenshots. GameSnap watches this folder in real time and moves files as they arrive.&#x0a;&#x0a;Xbox Game Bar: Settings → Gaming → Captures&#x0a;ShareX: Task Settings → Override Screenshots Folder</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SourceFolderShort">Full path to the folder where your capture tool drops screenshots.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_AdditionalSources">Optional extra folders to monitor. Useful if you use multiple capture tools that save to different locations (e.g. ShareX and Game Bar simultaneously).</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_AdditionalSourcesShort">One folder path per line. All folders are monitored with the same rules as the primary source folder.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_DestinationBase">The parent folder that contains one subfolder per game.&#x0a;&#x0a;Example structure:&#x0a;  D:\Screenshots\&#x0a;    Elden Ring\&#x0a;    Cyberpunk 2077\&#x0a;    Celeste\&#x0a;&#x0a;GameSnap matches screenshots to these subfolders automatically.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_DestinationBaseShort">Parent folder containing your per-game subfolders.</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Detection ==================== -->
+    <sys:String x:Key="LOCGameSnap_Detection">Detection</sys:String>
+    <sys:String x:Key="LOCGameSnap_UsePlayniteDetection">Use Playnite game detection (recommended)</sys:String>
+    <sys:String x:Key="LOCGameSnap_UseWindowFallback">Use active window fallback</sys:String>
+    <sys:String x:Key="LOCGameSnap_EmulatorPrefixes">Emulator process prefixes (comma-separated)</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_UsePlayniteDetection">When a game is running in Playnite, screenshots are automatically assigned to that game. Also learns aliases for future use without Playnite running.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UsePlayniteDetectionLabel">Assigns screenshots to the currently running game and learns the alias automatically.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UseWindowFallback">If Playnite detection is off or no game is running, GameSnap reads the active window title and tries to match it to a game folder. Less reliable than Playnite detection.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UseWindowFallbackLabel">Secondary detection using the active window title. Less reliable — use Playnite detection when possible.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EmulatorPrefixes">Files whose name starts with one of these prefixes (e.g. 'retroarch') skip the dictionary and active-window detection entirely and use only the game currently running in Playnite. Use this for emulators that only expose the core name (not the ROM name) in the window title/process.</sys:String>
+    <sys:String x:Key="LOCGameSnap_BlacklistPrefixes">Blacklist prefixes (comma-separated)</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BlacklistPrefixes">Screenshots matching these prefixes will be completely ignored</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_ForceCreateFolder">Force Create Folder</sys:String>
+    <sys:String x:Key="LOCGameSnap_ForceCreateOnGameStart">Create folder on game start</sys:String>
+    <sys:String x:Key="LOCGameSnap_ForceCreateOnScreenshot">Create folder on screenshot need</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateFolder">Automatically create a folder with normalized game name when no match is found</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateFolderLabel">When enabled, unmatched screenshots will create a corresponding game folder automatically</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnGameStart">Automatically create folder when game starts</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnGameStartLabel">When enabled, folder will be created on every game start</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnScreenshot">Automatically create folder when a screenshot needs to be organized</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnScreenshotLabel">When enabled, folder will be created when a screenshot needs organizing</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Unmatched Files ==================== -->
+    <sys:String x:Key="LOCGameSnap_UnmatchedFiles">Unmatched Files</sys:String>
+    <sys:String x:Key="LOCGameSnap_MoveUnmatched">Move unmatched screenshots to a separate folder</sys:String>
+    <sys:String x:Key="LOCGameSnap_UnmatchedFolderName">Folder name:</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_MoveUnmatched">Instead of leaving unrecognized screenshots in the source folder, moves them to a dedicated folder so you can review and assign them later using the Review window (Extensions → GameSnap → Review unmatched screenshots).</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_MoveUnmatchedLabel">Use 'Review unmatched screenshots' from the GameSnap menu to assign them to games manually.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UnmatchedFolderName">Name of the subfolder created inside the destination base for unmatched files.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UnmatchedFolderNameShort">Default: _Unmatched. The folder is created automatically inside the destination base.</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Notifications ==================== -->
+    <sys:String x:Key="LOCGameSnap_Notifications">Notifications</sys:String>
+    <sys:String x:Key="LOCGameSnap_ShowNotifications">Show Playnite notification when screenshots are organized</sys:String>
+    <sys:String x:Key="LOCGameSnap_NotifyOnEachScreenshot">After each screenshot</sys:String>
+    <sys:String x:Key="LOCGameSnap_NotifyOnGameEnd">On game end</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ShowNotifications">Shows a notification in Playnite's notification area (bell icon) with a summary of how many screenshots were organized and which games they went to.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ShowNotificationsLabel">Example: 'Organized 3 screenshot(s): Elden Ring (2) | Celeste (1)'</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnEachScreenshot">Show notification immediately after each screenshot is organized</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnEachScreenshotLabel">When enabled, every screenshot organization will trigger a notification</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnGameEnd">Show summary notification when the game ends</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnGameEndLabel">When enabled, a summary notification will appear when the game stops</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_EnableMismatchNotification">Enable Screenshot Mismatch Notifications</sys:String>
+    <sys:String x:Key="LOCGameSnap_LimitNotifications">Limit Notifications</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableMismatchNotification">Show notifications when screenshots are moved to a different game folder or move fails</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableMismatchNotificationLabel">When enabled, Playnite notifications will appear for screenshot classification anomalies</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_LimitNotifications">Only notify once per exception type per game session</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_LimitNotificationsLabel">When enabled, each exception type will only notify once per game session (resets on game change)</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Rename ==================== -->
+    <sys:String x:Key="LOCGameSnap_RenamePattern">Rename Pattern</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_RenamePattern">Pattern used to rename screenshots when moving them. Use tokens to build the filename.&#x0a;&#x0a;Tokens:&#x0a;  {game}     → game folder name&#x0a;  {date}     → yyyy-MM-dd&#x0a;  {time}     → HH_mm_ss&#x0a;  {datetime} → yyyy-MM-dd_HH_mm_ss&#x0a;  {original} → original filename without extension</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_RenamePatternLabel">Tokens: {game} {date} {time} {datetime} {original}&#x0a;Example: {game}_{date}_{time} → EldenRing_2026-05-20_14_30_00.png</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Backup ==================== -->
+    <sys:String x:Key="LOCGameSnap_Backup">Backup</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableBackup">Enable automatic backup</sys:String>
+    <sys:String x:Key="LOCGameSnap_BackupFolder">Backup folder:</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableBackup">After moving a screenshot to its game folder, GameSnap also copies it to the backup folder. Useful for cloud drives or external HDDs.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableBackupLabel">Copies each organized screenshot to the backup folder after moving. Mirrors the same game subfolder structure.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BackupFolder">Destination for backup copies. Can be a cloud-synced folder (Google Drive, OneDrive) or an external drive.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BackupFolderShort">Full path to the backup destination folder.</sys:String>
+
+    <!-- ==================== SettingsView.xaml - ScreenshotsVisualizer ==================== -->
+    <sys:String x:Key="LOCGameSnap_SVIntegration">ScreenshotsVisualizer Integration</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableSVRefresh">Auto-refresh ScreenshotsVisualizer after organizing</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSVRefresh">When enabled, GameSnap automatically notifies ScreenshotsVisualizer to rescan a game whenever a screenshot is moved to its folder. Screenshots appear in the viewer instantly without any manual refresh.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSVRefreshLabel">Pairs with ScreenshotsVisualizer by Lacro59. Set the Global screenshots path in ScreenshotsVisualizer to your destination folder with the {Name} token.</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Steam ==================== -->
+    <sys:String x:Key="LOCGameSnap_Steam">Steam Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableSteam">Enable Steam screenshot support</sys:String>
+    <sys:String x:Key="LOCGameSnap_SteamPath">Steam path (leave empty to auto-detect):</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSteam">Monitors Steam's userdata folder and moves screenshots to the matching game folder in your destination base. GameSnap uses your Playnite library to resolve Steam AppIDs to game names.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSteamLabel">Reads from Steam's userdata folder. Game names are resolved using your Playnite library.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SteamPath">Leave empty to detect Steam automatically from the Windows registry. Only set this manually if auto-detection fails.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SteamPathShort">Example: C:\Program Files (x86)\Steam</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Polling ==================== -->
+    <sys:String x:Key="LOCGameSnap_PollingInterval">Polling interval (seconds):</sys:String>
+    <sys:String x:Key="LOCGameSnap_PollingNote">(backup scan in addition to real-time file watcher)</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_PollingInterval">How often GameSnap does a full scan of the source folder as a backup, in addition to the real-time file watcher. Increase this value if you notice high CPU usage.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_PollingIntervalShort">Default: 30 seconds. The file watcher handles most cases instantly — polling is just a safety net.</sys:String>
+
+    <!-- ==================== SettingsView.xaml - File Extensions ==================== -->
+    <sys:String x:Key="LOCGameSnap_FileExtensions">File Extensions</sys:String>
+    <sys:String x:Key="LOCGameSnap_ImageExtensions">Image extensions (comma separated):</sys:String>
+    <sys:String x:Key="LOCGameSnap_VideoExtensions">Video extensions (comma separated):</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ImageExtensions">File extensions treated as images. These are moved directly to the game folder.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ImageExtensionsShort">Default: .png, .jpg, .jpeg</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_VideoExtensions">File extensions treated as videos. These are moved to a 'Videos' subfolder inside the game folder.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_VideoExtensionsShort">Default: .mp4, .wmv — moved to GameFolder\Videos\</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Tools ==================== -->
+    <sys:String x:Key="LOCGameSnap_Tools">Tools</sys:String>
+    <sys:String x:Key="LOCGameSnap_OpenDictionary">Open dictionary.txt</sys:String>
+    <sys:String x:Key="LOCGameSnap_OpenLog">Open log</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_OpenDictionary">Opens the alias dictionary in Notepad. Add custom mappings between filename prefixes and game names. GameSnap also writes to this file automatically when it learns new aliases.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_OpenLog">Opens the GameSnap log file. Shows all moves, learned aliases, fallback detections, and errors. Useful for debugging unmatched files.</sys:String>
+
+    <!-- ==================== EmulatorsView.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnap_Emulators_EnableSupport">Enable emulator screenshot support</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_EnableSupportTip">When enabled, GameSnap will monitor the screenshot folders of all active emulators below and organize screenshots just like Game Bar or ShareX captures.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_SubLabel">Enable individual emulators below. GameSnap auto-detects standard install locations.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_ItemTooltip">This reads the emulator's own native screenshot folder. Screenshots must be taken with the emulator's built-in screenshot function (e.g. F9 in RetroArch) — captures made with ShareX or Xbox Game Bar won't show up here. For those, use 'Emulator process prefixes' in the Detection tab instead.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Browse">Browse</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Add">+ Add emulator</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_AddTip">Add a custom emulator not in the list above.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Remove">Remove selected</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_RemoveTip">Remove the last user-added emulator.</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Emulators_TipIcon">💡</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_ForceCreateTip">Tip: Enable 'Force Create Folder' in the General tab so folders are created automatically for new games.</sys:String>
+
+    <!-- ==================== ReviewWindow.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapReview_Title">GameSnap — Review Unmatched Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_Header">Review Unmatched Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_UnmatchedFiles">Unmatched Files</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SelectPreview">Select a file to preview</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_AssignToGame">Assign to Game</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SearchGames">Search games...</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_AssignButton">Assign to selected game</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_DeleteButton">Delete file</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SkipButton">Skip</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_CloseButton">Close</sys:String>
+
+    <!-- ==================== FullscreenReviewWindow.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapFullscreen_ReviewTitle">Review Unmatched Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SelectPreview">Select a file to preview</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SearchAssign">Search &amp; Assign</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Close">Close</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Skip">Skip</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SelectGame">Select game</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Back">Back</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Navigate">Navigate</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Space">SPACE</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Clear">CLEAR</sys:String>
+
+    <sys:String x:Key="LOCGameSnapFullscreen_VideoNoPreview">Video — no preview</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_CannotLoadPreview">Cannot load preview</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_AssignFailed">Failed to assign: {0}</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_DeleteConfirm">Delete {0}?</sys:String>
+
+    <!-- ==================== Main Menu and Game Menu ==================== -->
+    <sys:String x:Key="LOCGameSnapOrganizeScreenshots">Organize Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnapOpenLog">Open Log</sys:String>
+    <sys:String x:Key="LOCGameSnapOpenDictionary">Open Dictionary</sys:String>
+    <sys:String x:Key="LOCGameSnapReviewUnmatched">Review Unmatched Screenshots</sys:String>
+    <sys:String x:Key="LOCGameSnapReviewUnmatchedFullscreen">Fullscreen Review Unmatched</sys:String>
+
+    <!-- ==================== Dialog messages ==================== -->
+    <sys:String x:Key="LOCGameSnap_NotInitialized">GameSnap is not fully initialized.</sys:String>
+    <sys:String x:Key="LOCGameSnap_NoLogFile">No log file yet.</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Review_SelectFileAndGame">Select a file and a game first.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_NoFolderFound">No folder found for '{0}'. Please enable 'Force Create Folder' in settings or create the folder manually.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_MoveFailed">Failed to move file: {0}</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_DeleteConfirm">Delete '{0}'? This cannot be undone.</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_DeleteFailed">Failed to delete file: {0}</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_AllReviewed">All files reviewed!</sys:String>
+
+    <!-- ==================== Notification messages ==================== -->
+    <sys:String x:Key="LOCGameSnap_Notification_GameEnd">🎮 Game session ended, organized {1} screenshot(s) for "{0}"</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Error_SteamMoveFailed">❌ Error: Steam screenshot ({1}) for game ({0}) failed to organize</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_EmulatorMoveFailed">❌ Error: Emulator ({0}) screenshot ({2}) for game ({1}) failed to organize</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_FolderNotFound">❌ Error: Screenshot ({1}) for game ({0}) failed to organize to folder ({2}), please check if the folder exists</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_MoveFailed">❌ Error: Screenshot ({1}) for game ({0}) failed to move to folder ({2})</sys:String>
+    <sys:String x:Key="LOCGameSnap_Warning_Mismatch">⚠️ Warning: Current game ({0}) does not match screenshot folder ({1})</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_GameName_Unknown">Unknown</sys:String>
+
+    <!-- ==================== Summary prefixes ==================== -->
+    <sys:String x:Key="LOCGameSnap_Summary_Steam">Steam</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Emulators">Emulators</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Organized">Organized</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Screenshot">screenshot(s)</sys:String>
+    <sys:String x:Key="LOCGameSnap_Notification_Score">[Score: {0}]</sys:String>
+
+</ResourceDictionary>

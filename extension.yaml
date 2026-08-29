@@ -1,13 +1,13 @@
-Id: 1826881c-4e6e-4ed3-ac6c-8605f953daf4
-Name: GameSnap
-Author: TokamiGankei
-Version: 1.0.0
+Id: 1c40485d-40d8-4c01-b194-7c6c9782e7b9
+Name: GameSnap_Fixed by ERROR0cai
+Author: ERROR0cai (Based on TokamiGankei's GameSnap)
+Version: 1.4.1.23333
 Module: GameSnapPlugin.dll
 Type: GenericPlugin
 Icon: icon.png
-Description: Automatically organizes game screenshots into per-game folders. Works with Xbox Game Bar, ShareX, Steam, and any other capture tool. No scripts, no manual setup — just install and play.
+Description: Improved from the original version, fixed incorrect matches caused by name containment, added scoring algorithm and adjustable threshold for more accurate screenshot organization.
 Links:
-  - Name: GitHub
+  - Name: Original GitHub
     Url: https://github.com/TokamiGankei/GameSnap
-  - Name: Buy Me a Coffee
-    Url: https://buymeacoffee.com/TokamiGankei
+  - Name: Fixed by ERROR0cai
+    Url: https://github.com/ERROR0cai/GameSnap_Fixed

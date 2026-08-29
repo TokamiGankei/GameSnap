@@ -235,7 +235,8 @@ namespace GameSnapPlugin
             if (_selectedFile == null || _selectedGame == null)
             {
                 _playniteApi.Dialogs.ShowMessage(
-                    "Select a file and a game first.", "GameSnap");
+                    _playniteApi.Resources.GetString("LOCGameSnap_Review_SelectFileAndGame") ?? "Select a file and a game first.",
+                    "GameSnap");
                 return;
             }
 
@@ -259,8 +260,8 @@ namespace GameSnapPlugin
                 }
             }
 
-            // Cria a pasta se AutoCreateFolders estiver ativo
-            if (destDir == null && _settings.AutoCreateFolders)
+            // Cria a pasta se ForceCreateFolder estiver ativo
+            if (destDir == null && _settings.ForceCreateFolder)
             {
                 var invalid    = Path.GetInvalidFileNameChars();
                 var folderName = string.Concat(gameName.Split(invalid)).Trim();
@@ -271,7 +272,9 @@ namespace GameSnapPlugin
             if (destDir == null)
             {
                 _playniteApi.Dialogs.ShowMessage(
-                    $"No folder found for '{gameName}'.\n\nEnable 'Auto-create game folders' in settings, or create the folder manually.",
+                    string.Format(
+                        _playniteApi.Resources.GetString("LOCGameSnap_Review_NoFolderFound") ?? "No folder found for '{0}'. Please create the folder manually.",
+                        gameName),
                     "GameSnap");
                 return;
             }
@@ -306,7 +309,10 @@ namespace GameSnapPlugin
             catch (Exception ex)
             {
                 _playniteApi.Dialogs.ShowMessage(
-                    $"Failed to move file:\n{ex.Message}", "GameSnap");
+                    string.Format(
+                        _playniteApi.Resources.GetString("LOCGameSnap_Review_MoveFailed") ?? "Failed to move file: {0}",
+                        ex.Message),
+                    "GameSnap");
             }
         }
 
@@ -315,7 +321,9 @@ namespace GameSnapPlugin
             if (_selectedFile == null) return;
 
             var confirm = _playniteApi.Dialogs.ShowMessage(
-                $"Delete '{_selectedFile.FileName}'?\nThis cannot be undone.",
+                string.Format(
+                    _playniteApi.Resources.GetString("LOCGameSnap_Review_DeleteConfirm") ?? "Delete '{0}'? This cannot be undone.",
+                    _selectedFile.FileName),
                 "GameSnap",
                 MessageBoxButton.YesNo);
 
@@ -331,7 +339,10 @@ namespace GameSnapPlugin
             catch (Exception ex)
             {
                 _playniteApi.Dialogs.ShowMessage(
-                    $"Failed to delete file:\n{ex.Message}", "GameSnap");
+                    string.Format(
+                        _playniteApi.Resources.GetString("LOCGameSnap_Review_DeleteFailed") ?? "Failed to delete file: {0}",
+                        ex.Message),
+                    "GameSnap");
             }
         }
 
@@ -355,7 +366,8 @@ namespace GameSnapPlugin
             {
                 SelectedFile = null;
                 _playniteApi.Dialogs.ShowMessage(
-                    "All files reviewed!", "GameSnap");
+                    _playniteApi.Resources.GetString("LOCGameSnap_Review_AllReviewed") ?? "All files reviewed!",
+                    "GameSnap");
                 _closeAction?.Invoke();
                 return;
             }

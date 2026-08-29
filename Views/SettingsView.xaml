@@ -19,7 +19,7 @@
         <StackPanel>
 
             <!-- Folders -->
-            <TextBlock Text="Folders" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Folders}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
@@ -27,34 +27,34 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Source folder (Game Bar / ShareX output):" Margin="0,0,0,4">
+                    <TextBlock Text="{DynamicResource LOCGameSnap_SourceFolder}" Margin="0,0,0,4">
                         <TextBlock.ToolTip>
                             <ToolTip>
                                 <TextBlock MaxWidth="300" TextWrapping="Wrap"
-                                           Text="The folder where your capture tool saves screenshots. GameSnap watches this folder in real time and moves files as they arrive.&#x0a;&#x0a;Xbox Game Bar: Settings → Gaming → Captures&#x0a;ShareX: Task Settings → Override Screenshots Folder"/>
+                                           Text="{DynamicResource LOCGameSnap_Tip_SourceFolder}"/>
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox Text="{Binding Settings.SourceFolder, UpdateSourceTrigger=PropertyChanged}"
-                             ToolTip="Full path to the folder where your capture tool drops screenshots."/>
+                             ToolTip="{DynamicResource LOCGameSnap_Tip_SourceFolderShort}"/>
                 </StackPanel>
-                <Button Grid.Column="1" Content="Browse" VerticalAlignment="Bottom"
+                <Button Grid.Column="1" Content="{DynamicResource LOCGameSnap_Browse}" VerticalAlignment="Bottom"
                         Margin="8,0,0,0" Padding="10,4"
                         Command="{Binding BrowseSourceCommand}"/>
             </Grid>
 
-            <TextBlock Text="Additional source folders (one per line):" Margin="0,0,0,4">
+            <TextBlock Text="{DynamicResource LOCGameSnap_AdditionalSources}" Margin="0,0,0,4">
                 <TextBlock.ToolTip>
                     <ToolTip>
                         <TextBlock MaxWidth="300" TextWrapping="Wrap"
-                                   Text="Optional extra folders to monitor. Useful if you use multiple capture tools that save to different locations (e.g. ShareX and Game Bar simultaneously)."/>
+                                   Text="{DynamicResource LOCGameSnap_Tip_AdditionalSources}"/>
                     </ToolTip>
                 </TextBlock.ToolTip>
             </TextBlock>
             <TextBox Text="{Binding AdditionalSourcesText, UpdateSourceTrigger=PropertyChanged}"
                      Height="60" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
                      Margin="0,0,0,8"
-                     ToolTip="One folder path per line. All folders are monitored with the same rules as the primary source folder."/>
+                     ToolTip="{DynamicResource LOCGameSnap_Tip_AdditionalSourcesShort}"/>
 
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
@@ -62,18 +62,18 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Destination base folder (game subfolders live here):" Margin="0,0,0,4">
+                    <TextBlock Text="{DynamicResource LOCGameSnap_DestinationBase}" Margin="0,0,0,4">
                         <TextBlock.ToolTip>
                             <ToolTip>
                                 <TextBlock MaxWidth="300" TextWrapping="Wrap"
-                                           Text="The parent folder that contains one subfolder per game.&#x0a;&#x0a;Example structure:&#x0a;  D:\Screenshots\&#x0a;    Elden Ring\&#x0a;    Cyberpunk 2077\&#x0a;    Celeste\&#x0a;&#x0a;GameSnap matches screenshots to these subfolders automatically."/>
+                                           Text="{DynamicResource LOCGameSnap_Tip_DestinationBase}"/>
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox Text="{Binding Settings.DestinationBase, UpdateSourceTrigger=PropertyChanged}"
-                             ToolTip="Parent folder containing your per-game subfolders."/>
+                             ToolTip="{DynamicResource LOCGameSnap_Tip_DestinationBaseShort}"/>
                 </StackPanel>
-                <Button Grid.Column="1" Content="Browse" VerticalAlignment="Bottom"
+                <Button Grid.Column="1" Content="{DynamicResource LOCGameSnap_Browse}" VerticalAlignment="Bottom"
                         Margin="8,0,0,0" Padding="10,4"
                         Command="{Binding BrowseDestinationCommand}"/>
             </Grid>
@@ -81,88 +81,150 @@
             <Separator Margin="0,8,0,12"/>
 
             <!-- Detection -->
-            <TextBlock Text="Detection" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Detection}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Use Playnite game detection (recommended)"
+            <CheckBox Content="{DynamicResource LOCGameSnap_UsePlayniteDetection}"
                       IsChecked="{Binding Settings.UsePlayniteDetection}"
                       Margin="0,0,0,4"
-                      ToolTip="When a game is running in Playnite, screenshots are automatically assigned to that game. Also learns aliases for future use without Playnite running."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_UsePlayniteDetection}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Assigns screenshots to the currently running game and learns the alias automatically."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_UsePlayniteDetectionLabel}"/>
 
-            <CheckBox Content="Use active window fallback"
+            <CheckBox Content="{DynamicResource LOCGameSnap_UseWindowFallback}"
                       IsChecked="{Binding Settings.UseWindowFallback}"
                       Margin="0,0,0,4"
-                      ToolTip="If Playnite detection is off or no game is running, GameSnap reads the active window title and tries to match it to a game folder. Less reliable than Playnite detection."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_UseWindowFallback}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Secondary detection using the active window title. Less reliable — use Playnite detection when possible."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_UseWindowFallbackLabel}"/>
 
-            <TextBlock Text="Emulator process prefixes (comma-separated)" Margin="0,8,0,4"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_EmulatorPrefixes}" Margin="0,8,0,4"/>
             <TextBox Text="{Binding EmulatorPrefixesText, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Files whose name starts with one of these prefixes (e.g. 'retroarch') skip the dictionary and active-window detection entirely and use only the game currently running in Playnite. Use this for emulators that only expose the core name (not the ROM name) in the window title/process — otherwise the dictionary would learn the wrong game and keep reusing it for every ROM."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_EmulatorPrefixes}"/>
 
-            <CheckBox Content="Auto-create game folders when a game starts"
-                      IsChecked="{Binding Settings.AutoCreateFolders}"
-                      Margin="0,0,0,4"
-                      ToolTip="Automatically creates a subfolder in the destination base using the game name from Playnite whenever you start playing a game for the first time. Disabled by default."/>
+            <!-- ✅ 新增：黑名单前缀 -->
+            <TextBlock Text="{DynamicResource LOCGameSnap_BlacklistPrefixes}" Margin="0,8,0,4"/>
+            <TextBox Text="{Binding BlacklistPrefixesText, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Disabled by default. Creates the game folder on first play — no manual folder creation needed."/>
+                    Text="{DynamicResource LOCGameSnap_Tip_BlacklistPrefixes}"/>
+
+            <CheckBox Content="{DynamicResource LOCGameSnap_ForceCreateFolder}"
+                    IsChecked="{Binding Settings.ForceCreateFolder}"
+                    Margin="0,0,0,4"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_ForceCreateFolder}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Text="{DynamicResource LOCGameSnap_Tip_ForceCreateFolderLabel}"/>
+
+            <!-- ✅ 新增：强制创建文件夹的子选项 -->
+            <CheckBox Content="{DynamicResource LOCGameSnap_ForceCreateOnGameStart}"
+                    IsChecked="{Binding Settings.ForceCreateOnGameStart}"
+                    Margin="20,2,0,4"
+                    IsEnabled="{Binding Settings.ForceCreateFolder}"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_ForceCreateOnGameStart}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Margin="20,0,0,4"
+                    Text="{DynamicResource LOCGameSnap_Tip_ForceCreateOnGameStartLabel}"/>
+
+            <CheckBox Content="{DynamicResource LOCGameSnap_ForceCreateOnScreenshot}"
+                    IsChecked="{Binding Settings.ForceCreateOnScreenshot}"
+                    Margin="20,2,0,4"
+                    IsEnabled="{Binding Settings.ForceCreateFolder}"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_ForceCreateOnScreenshot}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Margin="20,0,0,10"
+                    Text="{DynamicResource LOCGameSnap_Tip_ForceCreateOnScreenshotLabel}"/>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Unmatched -->
-            <TextBlock Text="Unmatched Files" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_UnmatchedFiles}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Move unmatched screenshots to a separate folder"
+            <CheckBox Content="{DynamicResource LOCGameSnap_MoveUnmatched}"
                       IsChecked="{Binding Settings.MoveUnmatchedToFolder}"
                       Margin="0,0,0,4"
-                      ToolTip="Instead of leaving unrecognized screenshots in the source folder, moves them to a dedicated folder so you can review and assign them later using the Review window (Extensions → GameSnap → Review unmatched screenshots)."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_MoveUnmatched}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Use 'Review unmatched screenshots' from the GameSnap menu to assign them to games manually."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_MoveUnmatchedLabel}"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                <TextBlock Text="Folder name:" VerticalAlignment="Center" Margin="0,0,8,0"
-                           ToolTip="Name of the subfolder created inside the destination base for unmatched files."/>
+                <TextBlock Text="{DynamicResource LOCGameSnap_UnmatchedFolderName}" VerticalAlignment="Center" Margin="0,0,8,0"
+                           ToolTip="{DynamicResource LOCGameSnap_Tip_UnmatchedFolderName}"/>
                 <TextBox Width="160"
                          Text="{Binding Settings.UnmatchedFolderName, UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="Default: _Unmatched. The folder is created automatically inside the destination base."/>
+                         ToolTip="{DynamicResource LOCGameSnap_Tip_UnmatchedFolderNameShort}"/>
             </StackPanel>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Notifications -->
-            <TextBlock Text="Notifications" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Notifications}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Show Playnite notification when screenshots are organized"
-                      IsChecked="{Binding Settings.ShowNotifications}"
-                      Margin="0,0,0,4"
-                      ToolTip="Shows a notification in Playnite's notification area (bell icon) with a summary of how many screenshots were organized and which games they went to."/>
+            <CheckBox Content="{DynamicResource LOCGameSnap_ShowNotifications}"
+                    IsChecked="{Binding Settings.ShowNotifications}"
+                    Margin="0,0,0,4"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_ShowNotifications}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Example: 'Organized 3 screenshot(s): Elden Ring (2) | Celeste (1)'"/>
+                    Text="{DynamicResource LOCGameSnap_Tip_ShowNotificationsLabel}"/>
+
+            <!-- ✅ 新增：通知时机子选项 -->
+            <CheckBox Content="{DynamicResource LOCGameSnap_NotifyOnEachScreenshot}"
+                    IsChecked="{Binding Settings.NotifyOnEachScreenshot}"
+                    Margin="20,2,0,4"
+                    IsEnabled="{Binding Settings.ShowNotifications}"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_NotifyOnEachScreenshot}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Margin="20,0,0,2"
+                    Text="{DynamicResource LOCGameSnap_Tip_NotifyOnEachScreenshotLabel}"/>
+
+            <CheckBox Content="{DynamicResource LOCGameSnap_NotifyOnGameEnd}"
+                    IsChecked="{Binding Settings.NotifyOnGameEnd}"
+                    Margin="20,2,0,4"
+                    IsEnabled="{Binding Settings.ShowNotifications}"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_NotifyOnGameEnd}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Margin="20,0,0,10"
+                    Text="{DynamicResource LOCGameSnap_Tip_NotifyOnGameEndLabel}"/>
+
+            <!-- 图片分类异常通知 -->
+            <CheckBox Content="{DynamicResource LOCGameSnap_EnableMismatchNotification}"
+                    IsChecked="{Binding Settings.EnableMismatchNotification}"
+                    Margin="0,8,0,4"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_EnableMismatchNotification}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Text="{DynamicResource LOCGameSnap_Tip_EnableMismatchNotificationLabel}"/>
+
+            <!-- 限制通知（子选项，缩进显示） -->
+            <CheckBox Content="{DynamicResource LOCGameSnap_LimitNotifications}"
+                    IsChecked="{Binding Settings.LimitNotifications}"
+                    Margin="20,2,0,4"
+                    IsEnabled="{Binding Settings.EnableMismatchNotification}"
+                    ToolTip="{DynamicResource LOCGameSnap_Tip_LimitNotifications}"/>
+            <TextBlock Style="{StaticResource TipLabel}"
+                    Margin="20,0,0,10"
+                    Text="{DynamicResource LOCGameSnap_Tip_LimitNotificationsLabel}"/>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Rename -->
-            <TextBlock Text="Rename Pattern" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_RenamePattern}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
             <TextBox Text="{Binding Settings.RenamePattern, UpdateSourceTrigger=PropertyChanged}"
                      Margin="0,0,0,4"
-                     ToolTip="Pattern used to rename screenshots when moving them. Use tokens to build the filename.&#x0a;&#x0a;Tokens:&#x0a;  {game}     → game folder name&#x0a;  {date}     → yyyy-MM-dd&#x0a;  {time}     → HH_mm_ss&#x0a;  {datetime} → yyyy-MM-dd_HH_mm_ss&#x0a;  {original} → original filename without extension"/>
+                     ToolTip="{DynamicResource LOCGameSnap_Tip_RenamePattern}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Tokens: {game} {date} {time} {datetime} {original}&#x0a;Example: {game}_{date}_{time} → EldenRing_2026-05-20_14_30_00.png"/>
+                       Text="{DynamicResource LOCGameSnap_Tip_RenamePatternLabel}"/>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Backup -->
-            <TextBlock Text="Backup" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Backup}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Enable automatic backup (disabled by default)"
+            <CheckBox Content="{DynamicResource LOCGameSnap_EnableBackup}"
                       IsChecked="{Binding Settings.EnableBackup}"
                       Margin="0,0,0,4"
-                      ToolTip="After moving a screenshot to its game folder, GameSnap also copies it to the backup folder. Useful for cloud drives or external HDDs. Disabled by default."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_EnableBackup}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Copies each organized screenshot to the backup folder after moving. Mirrors the same game subfolder structure."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_EnableBackupLabel}"/>
 
             <Grid Margin="0,0,0,12">
                 <Grid.ColumnDefinitions>
@@ -170,12 +232,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Backup folder:" Margin="0,0,0,4"
-                               ToolTip="Destination for backup copies. Can be a cloud-synced folder (Google Drive, OneDrive) or an external drive."/>
+                    <TextBlock Text="{DynamicResource LOCGameSnap_BackupFolder}" Margin="0,0,0,4"
+                               ToolTip="{DynamicResource LOCGameSnap_Tip_BackupFolder}"/>
                     <TextBox Text="{Binding Settings.BackupFolder, UpdateSourceTrigger=PropertyChanged}"
-                             ToolTip="Full path to the backup destination folder."/>
+                             ToolTip="{DynamicResource LOCGameSnap_Tip_BackupFolderShort}"/>
                 </StackPanel>
-                <Button Grid.Column="1" Content="Browse" VerticalAlignment="Bottom"
+                <Button Grid.Column="1" Content="{DynamicResource LOCGameSnap_Browse}" VerticalAlignment="Bottom"
                         Margin="8,0,0,0" Padding="10,4"
                         Command="{Binding BrowseBackupCommand}"/>
             </Grid>
@@ -183,26 +245,26 @@
             <Separator Margin="0,4,0,12"/>
 
             <!-- ScreenshotsVisualizer -->
-            <TextBlock Text="ScreenshotsVisualizer" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_SVIntegration}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Auto-refresh ScreenshotsVisualizer after organizing (disabled by default)"
+            <CheckBox Content="{DynamicResource LOCGameSnap_EnableSVRefresh}"
                       IsChecked="{Binding Settings.EnableScreenshotsVisualizerRefresh}"
                       Margin="0,0,0,4"
-                      ToolTip="When enabled, GameSnap automatically notifies ScreenshotsVisualizer to rescan a game whenever a screenshot is moved to its folder. Screenshots appear in the viewer instantly without any manual refresh. Requires ScreenshotsVisualizer to be installed — has no effect otherwise."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_EnableSVRefresh}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Pairs with ScreenshotsVisualizer by Lacro59. Set the Global screenshots path in SV to your destination folder with the {Name} token."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_EnableSVRefreshLabel}"/>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Steam -->
-            <TextBlock Text="Steam Screenshots" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Steam}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <CheckBox Content="Enable Steam screenshot support (disabled by default)"
+            <CheckBox Content="{DynamicResource LOCGameSnap_EnableSteam}"
                       IsChecked="{Binding Settings.EnableSteamSupport}"
                       Margin="0,0,0,4"
-                      ToolTip="Monitors Steam's userdata folder and moves screenshots to the matching game folder in your destination base. GameSnap uses your Playnite library to resolve Steam AppIDs to game names — no API key needed. Disabled by default."/>
+                      ToolTip="{DynamicResource LOCGameSnap_Tip_EnableSteam}"/>
             <TextBlock Style="{StaticResource TipLabel}"
-                       Text="Reads from Steam's userdata folder. Game names are resolved using your Playnite library — only works for games already added to Playnite."/>
+                       Text="{DynamicResource LOCGameSnap_Tip_EnableSteamLabel}"/>
 
             <Grid Margin="0,0,0,12">
                 <Grid.ColumnDefinitions>
@@ -210,12 +272,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Steam path (leave empty to auto-detect):" Margin="0,0,0,4"
-                               ToolTip="Leave empty to detect Steam automatically from the Windows registry. Only set this manually if auto-detection fails."/>
+                    <TextBlock Text="{DynamicResource LOCGameSnap_SteamPath}" Margin="0,0,0,4"
+                               ToolTip="{DynamicResource LOCGameSnap_Tip_SteamPath}"/>
                     <TextBox Text="{Binding Settings.SteamPath, UpdateSourceTrigger=PropertyChanged}"
-                             ToolTip="Example: C:\Program Files (x86)\Steam"/>
+                             ToolTip="{DynamicResource LOCGameSnap_Tip_SteamPathShort}"/>
                 </StackPanel>
-                <Button Grid.Column="1" Content="Browse" VerticalAlignment="Bottom"
+                <Button Grid.Column="1" Content="{DynamicResource LOCGameSnap_Browse}" VerticalAlignment="Bottom"
                         Margin="8,0,0,0" Padding="10,4"
                         Command="{Binding BrowseSteamCommand}"/>
             </Grid>
@@ -223,45 +285,45 @@
             <Separator Margin="0,4,0,12"/>
 
             <!-- Polling -->
-            <TextBlock Text="Polling interval (seconds):" Margin="0,0,0,4"
-                       ToolTip="How often GameSnap does a full scan of the source folder as a backup, in addition to the real-time file watcher. Increase this value if you notice high CPU usage."/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_PollingInterval}" Margin="0,0,0,4"
+                       ToolTip="{DynamicResource LOCGameSnap_Tip_PollingInterval}"/>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                 <TextBox Width="60"
                          Text="{Binding Settings.PollingIntervalSeconds, UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="Default: 30 seconds. The file watcher handles most cases instantly — polling is just a safety net."/>
-                <TextBlock Text="  (backup scan in addition to real-time file watcher)"
+                         ToolTip="{DynamicResource LOCGameSnap_Tip_PollingIntervalShort}"/>
+                <TextBlock Text="{DynamicResource LOCGameSnap_PollingNote}"
                            VerticalAlignment="Center" Foreground="Gray"/>
             </StackPanel>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Extensions -->
-            <TextBlock Text="File Extensions" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_FileExtensions}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
-            <TextBlock Text="Image extensions (comma separated):" Margin="0,0,0,4"
-                       ToolTip="File extensions treated as images. These are moved directly to the game folder."/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_ImageExtensions}" Margin="0,0,0,4"
+                       ToolTip="{DynamicResource LOCGameSnap_Tip_ImageExtensions}"/>
             <TextBox Margin="0,0,0,8"
                      Text="{Binding ImageExtensionsText, UpdateSourceTrigger=PropertyChanged}"
-                     ToolTip="Default: .png, .jpg, .jpeg"/>
+                     ToolTip="{DynamicResource LOCGameSnap_Tip_ImageExtensionsShort}"/>
 
-            <TextBlock Text="Video extensions (comma separated):" Margin="0,0,0,4"
-                       ToolTip="File extensions treated as videos. These are moved to a 'Videos' subfolder inside the game folder."/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_VideoExtensions}" Margin="0,0,0,4"
+                       ToolTip="{DynamicResource LOCGameSnap_Tip_VideoExtensions}"/>
             <TextBox Margin="0,0,0,12"
                      Text="{Binding VideoExtensionsText, UpdateSourceTrigger=PropertyChanged}"
-                     ToolTip="Default: .mp4, .wmv — moved to GameFolder\Videos\"/>
+                     ToolTip="{DynamicResource LOCGameSnap_Tip_VideoExtensionsShort}"/>
 
             <Separator Margin="0,4,0,12"/>
 
             <!-- Tools -->
-            <TextBlock Text="Tools" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource LOCGameSnap_Tools}" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
 
             <StackPanel Orientation="Horizontal">
-                <Button Content="Open dictionary.txt" Padding="10,6" Margin="0,0,8,0"
+                <Button Content="{DynamicResource LOCGameSnap_OpenDictionary}" Padding="10,6" Margin="0,0,8,0"
                         Command="{Binding OpenDictionaryCommand}"
-                        ToolTip="Opens the alias dictionary in Notepad. Add custom mappings between filename prefixes and game names. GameSnap also writes to this file automatically when it learns new aliases."/>
-                <Button Content="Open log" Padding="10,6"
+                        ToolTip="{DynamicResource LOCGameSnap_Tip_OpenDictionary}"/>
+                <Button Content="{DynamicResource LOCGameSnap_OpenLog}" Padding="10,6"
                         Command="{Binding OpenLogCommand}"
-                        ToolTip="Opens the GameSnap log file. Shows all moves, learned aliases, fallback detections, and errors. Useful for debugging unmatched files."/>
+                        ToolTip="{DynamicResource LOCGameSnap_Tip_OpenLog}"/>
             </StackPanel>
 
         </StackPanel>

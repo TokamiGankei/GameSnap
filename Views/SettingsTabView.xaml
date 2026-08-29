@@ -8,10 +8,10 @@
              d:DesignHeight="600" d:DesignWidth="640">
 
     <TabControl>
-        <TabItem Header="General">
+        <TabItem Header="{DynamicResource LOCGameSnapTab_General}">
             <local:SettingsView/>
         </TabItem>
-        <TabItem Header="Emulators">
+        <TabItem Header="{DynamicResource LOCGameSnapTab_Emulators}">
             <local:EmulatorsView/>
         </TabItem>
     </TabControl>

@@ -175,7 +175,7 @@ namespace GameSnapPlugin.Views
                 {
                     PreviewImage.Source       = null;
                     PreviewImage.Visibility   = Visibility.Collapsed;
-                    NoPreviewLabel.Text       = "Video — no preview";
+                    NoPreviewLabel.Text = _api.Resources.GetString("LOCGameSnapFullscreen_VideoNoPreview") ?? "Video — no preview";
                     NoPreviewLabel.Visibility = Visibility.Visible;
                 }
             }
@@ -183,7 +183,7 @@ namespace GameSnapPlugin.Views
             {
                 PreviewImage.Source       = null;
                 PreviewImage.Visibility   = Visibility.Collapsed;
-                NoPreviewLabel.Text       = "Cannot load preview";
+                NoPreviewLabel.Text = _api.Resources.GetString("LOCGameSnapFullscreen_CannotLoadPreview") ?? "Cannot load preview";
                 NoPreviewLabel.Visibility = Visibility.Visible;
             }
         }
@@ -349,7 +349,11 @@ namespace GameSnapPlugin.Views
             catch (Exception ex)
             {
                 _logger.Error($"[Fullscreen Review] Assign failed: {ex.Message} | File: {file.FullPath} | Dest: {dest?.Name}");
-                _api.Dialogs.ShowMessage($"Failed to assign: {ex.Message}", "GameSnap");
+                _api.Dialogs.ShowMessage(
+                    string.Format(
+                        _api.Resources.GetString("LOCGameSnapFullscreen_AssignFailed") ?? "Failed to assign: {0}",
+                        ex.Message),
+                    "GameSnap");
                 CloseSearchScreen();
             }
         }
@@ -366,7 +370,11 @@ namespace GameSnapPlugin.Views
             if (FileList.SelectedItem is not UnmatchedFileItem file) return;
 
             var result = _api.Dialogs.ShowMessage(
-                $"Delete {file.FileName}?", "GameSnap", MessageBoxButton.YesNo);
+                string.Format(
+                    _api.Resources.GetString("LOCGameSnapFullscreen_DeleteConfirm") ?? "Delete {0}?",
+                    file.FileName),
+                "GameSnap",
+                MessageBoxButton.YesNo);
 
             if (result != MessageBoxResult.Yes) return;
 

@@ -66,7 +66,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="Review Unmatched Screenshots"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_ReviewTitle}"
                                FontSize="24" FontWeight="Bold" Foreground="White"/>
                     <TextBlock x:Name="SubtitleLabel"
                                FontSize="13" Foreground="#666666"/>
@@ -118,7 +118,7 @@
                        Stretch="Uniform"
                        RenderOptions.BitmapScalingMode="HighQuality"/>
                 <TextBlock x:Name="NoPreviewLabel"
-                           Text="Select a file to preview"
+                           Text="{DynamicResource LOCGameSnapFullscreen_SelectPreview}"
                            FontSize="18" Foreground="#333333"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
@@ -139,7 +139,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="Search &amp; Assign"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_SearchAssign}"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center" Margin="0,0,24,0"/>
                     <!-- B -->
@@ -150,7 +150,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="Close"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_Close}"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center" Margin="0,0,24,0"/>
                     <!-- Start -->
@@ -161,7 +161,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="Skip"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_Skip}"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center"/>
                 </StackPanel>
@@ -290,8 +290,8 @@
                     <Button Content="b" Tag="b" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
                     <Button Content="n" Tag="n" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
                     <Button Content="m" Tag="m" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
-                    <Button Content="SPACE" Tag="SPACE" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
-                    <Button Content="CLEAR" Tag="CLEAR" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
+                    <Button Content="{DynamicResource LOCGameSnapFullscreen_Space}" Tag="SPACE" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
+                    <Button Content="{DynamicResource LOCGameSnapFullscreen_Clear}" Tag="CLEAR" Style="{StaticResource KeyStyle}" Click="Key_Click"/>
                 </UniformGrid>
             </Grid>
 
@@ -308,7 +308,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="Select game"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_SelectGame}"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center" Margin="0,0,24,0"/>
                     <Border Background="#333333" CornerRadius="16"
@@ -318,13 +318,13 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="Back"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_Back}"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center" Margin="0,0,24,0"/>
                     <TextBlock Text="D-pad"
                                Foreground="#aaaaaa" FontSize="13"
                                VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBlock Text="Navigate"
+                    <TextBlock Text="{DynamicResource LOCGameSnapFullscreen_Navigate}"
                                Foreground="#555555" FontSize="13"
                                VerticalAlignment="Center"/>
                 </StackPanel>

@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ==================== SettingsTabView.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapTab_General">常规</sys:String>
+    <sys:String x:Key="LOCGameSnapTab_Emulators">模拟器</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 文件夹 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Folders">文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_SourceFolder">源文件夹（游戏栏 / ShareX 输出目录）：</sys:String>
+    <sys:String x:Key="LOCGameSnap_Browse">浏览</sys:String>
+    <sys:String x:Key="LOCGameSnap_AdditionalSources">附加源文件夹（每行一个）：</sys:String>
+    <sys:String x:Key="LOCGameSnap_DestinationBase">目标基础文件夹（游戏子文件夹位于此处）：</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_SourceFolder">截图工具保存截图的文件夹。GameSnap 会实时监控此文件夹并在文件到达时自动移动。&#x0a;&#x0a;Xbox 游戏栏：设置 → 游戏 → 捕获&#x0a;ShareX：任务设置 → 覆盖截图文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SourceFolderShort">截图工具存放截图的完整路径。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_AdditionalSources">可选的额外监控文件夹。如果您使用多个截图工具并保存到不同位置（例如同时使用 ShareX 和游戏栏），此选项很有用。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_AdditionalSourcesShort">每行一个文件夹路径。所有文件夹都使用与主源文件夹相同的规则进行监控。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_DestinationBase">包含每个游戏一个子文件夹的父文件夹。&#x0a;&#x0a;结构示例：&#x0a;  D:\Screenshots\&#x0a;    艾尔登法环\&#x0a;    赛博朋克 2077\&#x0a;    蔚蓝\&#x0a;&#x0a;GameSnap 会自动将截图匹配到这些子文件夹。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_DestinationBaseShort">包含每个游戏子文件夹的父文件夹。</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 检测 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Detection">检测</sys:String>
+    <sys:String x:Key="LOCGameSnap_UsePlayniteDetection">使用 Playnite 游戏检测（推荐）</sys:String>
+    <sys:String x:Key="LOCGameSnap_UseWindowFallback">使用活动窗口回退方案</sys:String>
+    <sys:String x:Key="LOCGameSnap_EmulatorPrefixes">模拟器进程前缀（逗号分隔）</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_UsePlayniteDetection">当 Playnite 中有游戏正在运行时，截图会自动分配给该游戏。同时会学习别名，以便在 Playnite 未运行时使用。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UsePlayniteDetectionLabel">将截图分配给当前正在运行的游戏，并自动学习别名。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UseWindowFallback">如果 Playnite 检测关闭或没有游戏在运行，GameSnap 会读取活动窗口标题并尝试匹配到游戏文件夹。可靠性低于 Playnite 检测。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UseWindowFallbackLabel">使用活动窗口标题进行辅助检测。可靠性较低 — 请尽可能使用 Playnite 检测。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EmulatorPrefixes">文件名以这些前缀开头（例如 'retroarch'）的文件会完全跳过字典和活动窗口检测，仅使用 Playnite 中当前运行的游戏。用于那些窗口标题/进程中只显示核心名称（不显示 ROM 名称）的模拟器。</sys:String>
+    <sys:String x:Key="LOCGameSnap_BlacklistPrefixes">黑名单前缀（逗号分隔）</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BlacklistPrefixes">匹配这些前缀的截图将被完全忽略</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_ForceCreateFolder">强制创建文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_ForceCreateOnGameStart">游戏启动时创建文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_ForceCreateOnScreenshot">截图需要时创建文件夹</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateFolder">当没有匹配的文件夹时，自动创建标准化名称的文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateFolderLabel">启用后，未匹配的截图会自动创建对应游戏名的文件夹进行分类</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnGameStart">游戏启动时自动创建对应文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnGameStartLabel">启用后，每次游戏启动都会自动创建文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnScreenshot">截图分类时如果没有对应文件夹则自动创建</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ForceCreateOnScreenshotLabel">启用后，截图需要分类时会自动创建文件夹</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 未匹配文件 ==================== -->
+    <sys:String x:Key="LOCGameSnap_UnmatchedFiles">未匹配文件</sys:String>
+    <sys:String x:Key="LOCGameSnap_MoveUnmatched">将未匹配的截图移动到单独的文件夹</sys:String>
+    <sys:String x:Key="LOCGameSnap_UnmatchedFolderName">文件夹名称：</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_MoveUnmatched">不将无法识别的截图留在源文件夹中，而是将它们移动到一个专用文件夹，方便您稍后通过"回顾"窗口进行审查和手动分配（扩展 → GameSnap → 回顾未匹配截图）。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_MoveUnmatchedLabel">使用 GameSnap 菜单中的"回顾未匹配截图"来手动将它们分配给游戏。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UnmatchedFolderName">在目标基础文件夹内为未匹配文件创建的子文件夹名称。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_UnmatchedFolderNameShort">默认值：_Unmatched。该文件夹会在目标基础文件夹内自动创建。</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 通知 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Notifications">通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_ShowNotifications">截图整理完成后显示 Playnite 通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_NotifyOnEachScreenshot">每次截图整理后</sys:String>
+    <sys:String x:Key="LOCGameSnap_NotifyOnGameEnd">游戏结束后</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ShowNotifications">在 Playnite 的通知区域（铃铛图标）显示通知，汇总整理了多张截图以及它们分配到的游戏。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ShowNotificationsLabel">例如："已整理 3 张截图：艾尔登法环 (2) | 蔚蓝 (1)"</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnEachScreenshot">每张截图整理完成后立即显示通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnEachScreenshotLabel">启用后，每次截图整理都会显示通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnGameEnd">游戏结束时显示本次会话的整理汇总</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_NotifyOnGameEndLabel">启用后，游戏结束时会显示本次会话的整理汇总</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_EnableMismatchNotification">启用图片分类异常通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_LimitNotifications">限制通知</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableMismatchNotification">当截图被分类到不同游戏文件夹或移动失败时显示通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableMismatchNotificationLabel">启用后，将在截图分类异常时显示 Playnite 通知</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_LimitNotifications">每个游戏会话中每种异常只通知一次</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_LimitNotificationsLabel">启用后，每次启动游戏中每种异常类型只会通知一次（游戏切换时重置）</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 重命名 ==================== -->
+    <sys:String x:Key="LOCGameSnap_RenamePattern">重命名模式</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_RenamePattern">移动截图时用于重命名的模式。使用令牌构建文件名。&#x0a;&#x0a;令牌：&#x0a;  {game}     → 游戏文件夹名称&#x0a;  {date}     → yyyy-MM-dd&#x0a;  {time}     → HH_mm_ss&#x0a;  {datetime} → yyyy-MM-dd_HH_mm_ss&#x0a;  {original} → 原始文件名（不含扩展名）</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_RenamePatternLabel">令牌：{game} {date} {time} {datetime} {original}&#x0a;示例：{game}_{date}_{time} → 艾尔登法环_2026-05-20_14_30_00.png</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 备份 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Backup">备份</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableBackup">启用自动备份</sys:String>
+    <sys:String x:Key="LOCGameSnap_BackupFolder">备份文件夹：</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableBackup">将截图移动到游戏文件夹后，GameSnap 还会将其复制到备份文件夹。适用于云盘或外置硬盘。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableBackupLabel">每张整理后的截图在移动后会复制到备份文件夹。保持相同的游戏子文件夹结构。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BackupFolder">备份副本的目标位置。可以是云同步文件夹（Google Drive、OneDrive）或外置硬盘。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_BackupFolderShort">备份目标文件夹的完整路径。</sys:String>
+
+    <!-- ==================== SettingsView.xaml - ScreenshotsVisualizer ==================== -->
+    <sys:String x:Key="LOCGameSnap_SVIntegration">ScreenshotsVisualizer 集成</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableSVRefresh">整理后自动刷新 ScreenshotsVisualizer</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSVRefresh">启用后，每当截图被移动到游戏文件夹时，GameSnap 会自动通知 ScreenshotsVisualizer 重新扫描该游戏。截图会立即显示在查看器中，无需手动刷新。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSVRefreshLabel">与 Lacro59 的 ScreenshotsVisualizer 配合使用。在 ScreenshotsVisualizer 中将全局截图路径设置为您的目标文件夹，并使用 {Name} 令牌。</sys:String>
+
+    <!-- ==================== SettingsView.xaml - Steam ==================== -->
+    <sys:String x:Key="LOCGameSnap_Steam">Steam 截图</sys:String>
+    <sys:String x:Key="LOCGameSnap_EnableSteam">启用 Steam 截图支持</sys:String>
+    <sys:String x:Key="LOCGameSnap_SteamPath">Steam 路径（留空自动检测）：</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSteam">监控 Steam 的 userdata 文件夹，将截图移动到目标基础文件夹中匹配的游戏文件夹。GameSnap 使用您的 Playnite 库将 Steam AppID 解析为游戏名称。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_EnableSteamLabel">从 Steam 的 userdata 文件夹读取。游戏名称使用您的 Playnite 库解析。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SteamPath">留空以从 Windows 注册表自动检测 Steam。仅当自动检测失败时才手动设置。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_SteamPathShort">示例：C:\Program Files (x86)\Steam</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 轮询 ==================== -->
+    <sys:String x:Key="LOCGameSnap_PollingInterval">轮询间隔（秒）：</sys:String>
+    <sys:String x:Key="LOCGameSnap_PollingNote">（除实时文件监控外的备份扫描）</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_PollingInterval">除了实时文件监控器外，GameSnap 多久对源文件夹进行一次完整扫描作为备份。如果发现 CPU 使用率过高，可增大此值。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_PollingIntervalShort">默认值：30 秒。文件监控器会即时处理大多数情况 — 轮询仅作为安全网。</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 文件扩展名 ==================== -->
+    <sys:String x:Key="LOCGameSnap_FileExtensions">文件扩展名</sys:String>
+    <sys:String x:Key="LOCGameSnap_ImageExtensions">图片扩展名（逗号分隔）：</sys:String>
+    <sys:String x:Key="LOCGameSnap_VideoExtensions">视频扩展名（逗号分隔）：</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_ImageExtensions">被视为图片的文件扩展名。这些文件会直接移动到游戏文件夹。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_ImageExtensionsShort">默认值：.png, .jpg, .jpeg</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_VideoExtensions">被视为视频的文件扩展名。这些文件会移动到游戏文件夹内的 'Videos' 子文件夹。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_VideoExtensionsShort">默认值：.mp4, .wmv — 移动到 游戏文件夹\Videos\</sys:String>
+
+    <!-- ==================== SettingsView.xaml - 工具 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Tools">工具</sys:String>
+    <sys:String x:Key="LOCGameSnap_OpenDictionary">打开 dictionary.txt</sys:String>
+    <sys:String x:Key="LOCGameSnap_OpenLog">打开日志</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Tip_OpenDictionary">在记事本中打开别名词典。添加文件名前缀与游戏名称之间的自定义映射。GameSnap 在学习新别名时也会自动写入此文件。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Tip_OpenLog">打开 GameSnap 日志文件。显示所有移动记录、学习的别名、回退检测和错误信息。对调试未匹配文件很有用。</sys:String>
+
+    <!-- ==================== EmulatorsView.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnap_Emulators_EnableSupport">启用模拟器截图支持</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_EnableSupportTip">启用后，GameSnap 将监控下方所有已激活模拟器的截图文件夹，并像游戏栏或 ShareX 截图一样进行整理。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_SubLabel">在下方启用单个模拟器。GameSnap 会自动检测标准安装位置。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_ItemTooltip">读取模拟器自身的本地截图文件夹。截图必须使用模拟器内置的截图功能（例如 RetroArch 中的 F9）拍摄 — 使用 ShareX 或 Xbox 游戏栏捕获的截图不会出现在这里。对于这些情况，请在"检测"选项卡中使用"模拟器进程前缀"。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Browse">浏览</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Add">+ 添加模拟器</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_AddTip">添加一个不在上方列表中的自定义模拟器。</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_Remove">删除选中的</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_RemoveTip">删除最后一个用户添加的模拟器。</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Emulators_TipIcon">💡</sys:String>
+    <sys:String x:Key="LOCGameSnap_Emulators_ForceCreateTip">提示：在「常规」选项卡中启用「强制创建文件夹」，新游戏的文件夹将自动创建</sys:String>
+
+    <!-- ==================== ReviewWindow.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapReview_Title">GameSnap — 回顾未匹配截图</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_Header">回顾未匹配截图</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_UnmatchedFiles">未匹配文件</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SelectPreview">选择文件以预览</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_AssignToGame">分配给游戏</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SearchGames">搜索游戏...</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_AssignButton">分配给所选游戏</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_DeleteButton">删除文件</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_SkipButton">跳过</sys:String>
+    <sys:String x:Key="LOCGameSnapReview_CloseButton">关闭</sys:String>
+
+    <!-- ==================== FullscreenReviewWindow.xaml ==================== -->
+    <sys:String x:Key="LOCGameSnapFullscreen_ReviewTitle">回顾未匹配截图</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SelectPreview">选择文件以预览</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SearchAssign">搜索并分配</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Close">关闭</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Skip">跳过</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_SelectGame">选择游戏</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Back">返回</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Navigate">导航</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Space">空格</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_Clear">清除</sys:String>
+
+    <sys:String x:Key="LOCGameSnapFullscreen_VideoNoPreview">视频 — 无法预览</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_CannotLoadPreview">无法加载预览</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_AssignFailed">分配失败：{0}</sys:String>
+    <sys:String x:Key="LOCGameSnapFullscreen_DeleteConfirm">删除 {0}？</sys:String>
+
+    <!-- ==================== 主菜单和游戏菜单 ==================== -->
+    <sys:String x:Key="LOCGameSnapOrganizeScreenshots">整理截图</sys:String>
+    <sys:String x:Key="LOCGameSnapOpenLog">打开日志</sys:String>
+    <sys:String x:Key="LOCGameSnapOpenDictionary">打开字典</sys:String>
+    <sys:String x:Key="LOCGameSnapReviewUnmatched">查看未匹配截图</sys:String>
+    <sys:String x:Key="LOCGameSnapReviewUnmatchedFullscreen">全屏查看未匹配截图</sys:String>
+
+    <!-- ==================== 对话框文本 ==================== -->
+    <sys:String x:Key="LOCGameSnap_NotInitialized">GameSnap 尚未完全初始化</sys:String>
+    <sys:String x:Key="LOCGameSnap_NoLogFile">日志文件尚未生成</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Review_SelectFileAndGame">请先选择文件和游戏</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_NoFolderFound">未找到「{0}」的文件夹，请在设置中启用「强制创建文件夹」或手动创建</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_MoveFailed">移动文件失败：{0}</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_DeleteConfirm">确定要删除「{0}」吗？此操作不可撤销</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_DeleteFailed">删除文件失败：{0}</sys:String>
+    <sys:String x:Key="LOCGameSnap_Review_AllReviewed">所有文件已处理完成！</sys:String>
+
+    <!-- ==================== 通知消息 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Notification_GameEnd">🎮 游戏「{0}」会话结束，共整理 {1} 张截图到对应游戏文件夹</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_Error_SteamMoveFailed">❌ 错误：Steam游戏（{0}）的截图（{1}）在企图分类时失败</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_EmulatorMoveFailed">❌ 错误：模拟器（{0}）的游戏（{1}）的截图（{2}）在企图分类时失败</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_FolderNotFound">❌ 错误：当前游戏（{0}）的截图（{1}）在企图分类到（{2}）文件夹时失败，请检查文件夹是否存在</sys:String>
+    <sys:String x:Key="LOCGameSnap_Error_MoveFailed">❌ 错误：当前游戏（{0}）的截图（{1}）在企图分类到（{2}）文件夹时失败</sys:String>
+    <sys:String x:Key="LOCGameSnap_Warning_Mismatch">⚠️ 警告：当前游戏（{0}）与截图文件夹（{1}）似乎不匹配</sys:String>
+
+    <sys:String x:Key="LOCGameSnap_GameName_Unknown">未知</sys:String>
+
+    <!-- ==================== 汇总通知前缀 ==================== -->
+    <sys:String x:Key="LOCGameSnap_Summary_Steam">Steam</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Emulators">模拟器</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Organized">整理</sys:String>
+    <sys:String x:Key="LOCGameSnap_Summary_Screenshot">张截图</sys:String>
+    <sys:String x:Key="LOCGameSnap_Notification_Score">[相似度: {0}]</sys:String>
+
+</ResourceDictionary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;      // ✅ 新增
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,9 +17,17 @@ namespace GameSnapPlugin
         private Timer?             _pollingTimer;
         private bool               _disposed;
 
-        // Debounce — evita processar o mesmo arquivo duas vezes em < 5s
-        private readonly ConcurrentDictionary<string, DateTime> _recentlyProcessed
+        // ✅ 新文件处理队列（仅用于新文件，处理完后移除）
+        private readonly ConcurrentDictionary<string, DateTime> _pendingFiles
             = new ConcurrentDictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
+
+        // ✅ 已处理文件缓存（防止同一个文件被重复加入队列）
+        private readonly ConcurrentDictionary<string, DateTime> _processedCache
+            = new ConcurrentDictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
+
+        // ✅ 处理锁，防止并发处理同一个文件
+        private readonly ConcurrentDictionary<string, object> _fileLocks
+            = new ConcurrentDictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public WatcherService(GameSnapSettings settings, OrganizerService organizer, GameSnapLogger logger)
         {
@@ -35,10 +44,10 @@ namespace GameSnapPlugin
                 return;
             }
 
-            // FileSystemWatcher — reage imediatamente a novos arquivos
+            // FileSystemWatcher — 只监听新文件创建
             _watcher = new FileSystemWatcher(_settings.SourceFolder)
             {
-                NotifyFilter        = NotifyFilters.FileName | NotifyFilters.CreationTime,
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime,
                 IncludeSubdirectories = false,
                 EnableRaisingEvents = true
             };
@@ -46,9 +55,12 @@ namespace GameSnapPlugin
             _watcher.Created += OnFileCreated;
             _watcher.Error   += OnWatcherError;
 
-            // Loop de polling — captura arquivos que o watcher possa ter perdido
+            // ✅ 启动后台处理线程
+            Task.Run(() => ProcessQueueLoop());
+
+            // 轮询作为备用（但只检查是否有新文件，不处理已有文件）
             var interval = TimeSpan.FromSeconds(_settings.PollingIntervalSeconds);
-            _pollingTimer = new Timer(_ => SafeOrganize(), null, interval, interval);
+            _pollingTimer = new Timer(_ => CheckForNewFiles(), null, interval, interval);
 
             _logger.Info($"Watcher started on: {_settings.SourceFolder}");
         }
@@ -68,42 +80,192 @@ namespace GameSnapPlugin
             _logger.Info("Watcher stopped.");
         }
 
+        // ─── 新文件处理 ──────────────────────────────────────────────
+
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
             var path = e.FullPath;
 
-            // Debounce: ignorar se já processamos este arquivo nos últimos 5 segundos
-            var now = DateTime.UtcNow;
-            if (_recentlyProcessed.TryGetValue(path, out var lastSeen) &&
-                (now - lastSeen).TotalSeconds < 5)
+            // ✅ 检查是否已处理过（防止重复）
+            if (_processedCache.ContainsKey(path))
+            {
                 return;
+            }
 
-            _recentlyProcessed[path] = now;
+            // ✅ 检查是否已在队列中
+            if (_pendingFiles.ContainsKey(path))
+            {
+                return;
+            }
 
-            // Limpa entradas antigas do debounce (> 30s) para não acumular memória
-            foreach (var key in _recentlyProcessed.Keys)
-                if ((now - _recentlyProcessed[key]).TotalSeconds > 30)
-                    _recentlyProcessed.TryRemove(key, out _);
+            // ✅ 加入待处理队列
+            _pendingFiles.TryAdd(path, DateTime.UtcNow);
+            _logger.Write(LogType.Info, $"📥 New file queued: {Path.GetFileName(path)}");
+        }
 
-            // Delay de 2s para o arquivo terminar de ser escrito antes de processar
-            Task.Delay(2000).ContinueWith(_ =>
-                Task.Run(() => SafeOrganize()));
+        // ─── 后台处理循环 ────────────────────────────────────────────
+
+        private async Task ProcessQueueLoop()
+        {
+            while (!_disposed)
+            {
+                try
+                {
+                    // 获取所有待处理文件
+                    var pending = _pendingFiles.Keys.ToList();
+
+                    foreach (var filePath in pending)
+                    {
+                        // 如果文件已被处理，从队列移除
+                        if (_processedCache.ContainsKey(filePath))
+                        {
+                            _pendingFiles.TryRemove(filePath, out _);
+                            continue;
+                        }
+
+                        // 检查文件是否存在
+                        if (!File.Exists(filePath))
+                        {
+                            _pendingFiles.TryRemove(filePath, out _);
+                            continue;
+                        }
+
+                        // 获取文件锁，防止并发处理
+                        var lockObj = _fileLocks.GetOrAdd(filePath, new object());
+                        lock (lockObj)
+                        {
+                            // 再次检查是否已被处理
+                            if (_processedCache.ContainsKey(filePath))
+                            {
+                                _pendingFiles.TryRemove(filePath, out _);
+                                _fileLocks.TryRemove(filePath, out _);
+                                continue;
+                            }
+
+                            // 等待文件写入完成
+                            var fileInfo = new FileInfo(filePath);
+                            if (fileInfo.Length < 1024) // 小于1KB可能还在写入
+                            {
+                                // 稍后重试
+                                continue;
+                            }
+
+                            // ✅ 标记为已处理（立即防止重复）
+                            _processedCache.TryAdd(filePath, DateTime.UtcNow);
+
+                            // ✅ 从待处理队列移除
+                            _pendingFiles.TryRemove(filePath, out _);
+
+                            // ✅ 仅处理这个新文件
+                            ProcessSingleFile(filePath);
+
+                            // 释放锁
+                            _fileLocks.TryRemove(filePath, out _);
+                        }
+                    }
+
+                    // 清理过期的缓存（超过1小时的）
+                    CleanupCache();
+
+                    await Task.Delay(1000);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Queue processing error: {ex.Message}");
+                    await Task.Delay(5000);
+                }
+            }
+        }
+
+        // ─── 处理单个文件 ────────────────────────────────────────────
+
+        private void ProcessSingleFile(string filePath)
+        {
+            try
+            {
+                _logger.Write(LogType.Info, $"🔄 Processing new file: {Path.GetFileName(filePath)}");
+
+                // ✅ 调用 Organizer 处理单个文件（需要新增方法）
+                _organizer.ProcessSingleFile(filePath);
+            }
+            catch (Exception ex)
+            {
+                _logger.Write(LogType.Error, $"Process single file failed: {ex.Message}");
+            }
+        }
+
+        // ─── 备用轮询 ─────────────────────────────────────────────────
+
+        private void CheckForNewFiles()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(_settings.SourceFolder) || !Directory.Exists(_settings.SourceFolder))
+                    return;
+
+                // 只检查最近5秒内创建的文件
+                var cutoff = DateTime.UtcNow.AddSeconds(-5);
+                foreach (var file in Directory.GetFiles(_settings.SourceFolder))
+                {
+                    try
+                    {
+                        var info = new FileInfo(file);
+                        if (info.CreationTimeUtc < cutoff)
+                            continue;
+
+                        if (!_processedCache.ContainsKey(file) && !_pendingFiles.ContainsKey(file))
+                        {
+                            // 发现新文件，加入队列
+                            _pendingFiles.TryAdd(file, DateTime.UtcNow);
+                            _logger.Write(LogType.Info, $"📥 New file found by polling: {Path.GetFileName(file)}");
+                        }
+                    }
+                    catch { /* 忽略访问冲突 */ }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Polling check error: {ex.Message}");
+            }
+        }
+
+        // ─── 缓存清理 ─────────────────────────────────────────────────
+
+        private void CleanupCache()
+        {
+            var now = DateTime.UtcNow;
+            var expired = TimeSpan.FromHours(1);
+
+            foreach (var key in _processedCache.Keys)
+            {
+                if (_processedCache.TryGetValue(key, out var time))
+                {
+                    if (now - time > expired)
+                    {
+                        _processedCache.TryRemove(key, out _);
+                    }
+                }
+            }
+
+            // 清理队列中过期的文件（超过5分钟）
+            foreach (var key in _pendingFiles.Keys)
+            {
+                if (_pendingFiles.TryGetValue(key, out var time))
+                {
+                    if (now - time > TimeSpan.FromMinutes(5))
+                    {
+                        _pendingFiles.TryRemove(key, out _);
+                    }
+                }
+            }
         }
 
         private void OnWatcherError(object sender, ErrorEventArgs e)
         {
             _logger.Error($"Watcher error: {e.GetException().Message}");
-
-            // Tenta reiniciar o watcher
             Stop();
             Thread.Sleep(5000);
             Start();
-        }
-
-        private void SafeOrganize()
-        {
-            try   { _organizer.Organize(); }
-            catch (Exception ex) { _logger.Error($"Organize error: {ex.Message}"); }
         }
 
         public void Dispose()

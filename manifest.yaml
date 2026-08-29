@@ -1,12 +1,12 @@
-AddonId: 1826881c-4e6e-4ed3-ac6c-8605f953daf4
+AddonId: 1c40485d-40d8-4c01-b194-7c6c9782e7b9
 Packages:
-  - Version: 1.4.1
+  - Version: 1.4.1.233
     RequiredApiVersion: 6.0.0
-    ReleaseDate: 2026-07-05
-    PackageUrl: https://github.com/TokamiGankei/GameSnap/releases/download/v1.4.1/GameSnap-1.4.1.pext
+    ReleaseDate: 2026-08-24
+    PackageUrl: https://github.com/ERROR0cai/GameSnap_Fixed/releases/download/v1.4.1.233/GameSnap-1.4.1.233.pext
     Changelog:
-      - Emulator process prefixes (fixes core-only emulators like RetroArch reusing the same game folder for every ROM)
-      - Emulator folder scanning now works (native screenshot capture, auto-organized)
-      - Automatic matching against Playnite's ROM filename (no manual dictionary alias needed for arcade/Neo Geo short names)
-      - Dictionary consulted as fallback for emulator screenshots
-      - New plugin icon
+      - Fixed incorrect matches caused by game name containment
+      - Added similarity scoring algorithm for better matching accuracy
+      - Added adjustable match threshold slider in settings
+      - Added match score display in notifications
+      - Full Chinese localization support

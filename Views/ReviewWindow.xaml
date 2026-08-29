@@ -1,7 +1,7 @@
 <Window x:Class="GameSnapPlugin.Views.ReviewWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="GameSnap — Review Unmatched Screenshots"
+        Title="{DynamicResource LOCGameSnapReview_Title}"
         Height="620" Width="960"
         MinHeight="480" MinWidth="720"
         WindowStartupLocation="CenterOwner"
@@ -92,7 +92,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Review Unmatched Screenshots"
+                <TextBlock Text="{DynamicResource LOCGameSnapReview_Header}"
                            Foreground="White" FontSize="15" FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="1"
@@ -118,7 +118,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" Background="#0f3460" Padding="10,0">
-                        <TextBlock Text="Unmatched Files" Foreground="#a0b4c8"
+                        <TextBlock Text="{DynamicResource LOCGameSnapReview_UnmatchedFiles}" Foreground="#a0b4c8"
                                    FontSize="11" FontWeight="SemiBold"
                                    VerticalAlignment="Center"/>
                     </Border>
@@ -151,7 +151,7 @@
 
             <!-- Center: Image preview -->
             <Grid Grid.Column="1" Background="#0d0d1a">
-                <TextBlock Text="Select a file to preview"
+                <TextBlock Text="{DynamicResource LOCGameSnapReview_SelectPreview}"
                            Foreground="#404060"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -178,7 +178,7 @@
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" Background="#0f3460" Padding="10,0">
-                        <TextBlock Text="Assign to Game" Foreground="#a0b4c8"
+                        <TextBlock Text="{DynamicResource LOCGameSnapReview_AssignToGame}" Foreground="#a0b4c8"
                                    FontSize="11" FontWeight="SemiBold"
                                    VerticalAlignment="Center"/>
                     </Border>
@@ -199,7 +199,7 @@
                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                     Padding="{TemplateBinding Padding}">
                                                 <Grid>
-                                                    <TextBlock Text="Search games..."
+                                                    <TextBlock Text="{DynamicResource LOCGameSnapReview_SearchGames}"
                                                                Foreground="#405060" FontSize="12"
                                                                VerticalAlignment="Center"
                                                                Visibility="{Binding PlaceholderVisibility}"/>
@@ -243,20 +243,20 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0">
-                    <Button Content="Assign to selected game"
+                    <Button Content="{DynamicResource LOCGameSnapReview_AssignButton}"
                             Style="{StaticResource ActionButton}"
                             Command="{Binding AssignCommand}"
                             Margin="0,0,8,0"/>
-                    <Button Content="Delete file"
+                    <Button Content="{DynamicResource LOCGameSnapReview_DeleteButton}"
                             Style="{StaticResource SecondaryButton}"
                             Command="{Binding DeleteCommand}"
                             Margin="0,0,8,0"/>
-                    <Button Content="Skip"
+                    <Button Content="{DynamicResource LOCGameSnapReview_SkipButton}"
                             Style="{StaticResource SecondaryButton}"
                             Command="{Binding SkipCommand}"/>
                 </StackPanel>
 
-                <Button Grid.Column="1" Content="Close"
+                <Button Grid.Column="1" Content="{DynamicResource LOCGameSnapReview_CloseButton}"
                         Style="{StaticResource SecondaryButton}"
                         Command="{Binding CloseCommand}"/>
             </Grid>
